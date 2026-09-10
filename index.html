@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#08030f" />
+  <title>Nuestro primer mes — David y Miriam</title>
+  <meta name="description" content="Una carta escrita entre estrellas para Miriam, por nuestro primer mes juntos." />
+  <style>
+    :root{color-scheme:dark;--pink:#ff54c8;--rose:#ff91db;--violet:#a374ff;--ink:#08030f;--glass:rgba(23,8,36,.62)}
+    *{box-sizing:border-box}
+    html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050109;font-family:Georgia,"Times New Roman",serif;color:#fff}
+    button{font:inherit}
+    #sky{position:fixed;inset:0;width:100%;height:100%;background:radial-gradient(circle at 50% 43%,#25113d 0,#0d0618 38%,#030106 76%)}
+    .screen{position:fixed;inset:0;display:grid;place-items:center;transition:opacity .8s ease,visibility .8s ease}
+    .hidden{opacity:0;visibility:hidden;pointer-events:none}
+    .intro{padding:24px;background:radial-gradient(circle at 50% 20%,rgba(76,34,121,.35),transparent 42%)}
+    .card{position:relative;width:min(90vw,520px);padding:42px 30px 36px;text-align:center;border:1px solid rgba(255,151,226,.34);border-radius:22px;background:linear-gradient(145deg,rgba(45,18,64,.82),rgba(14,5,26,.8));box-shadow:0 0 70px rgba(185,72,255,.2),inset 0 0 34px rgba(255,255,255,.04);backdrop-filter:blur(14px)}
+    .card:before,.card:after{content:"✦";position:absolute;color:#f8b4ec;text-shadow:0 0 14px var(--pink);font-size:22px;animation:twinkle 1.9s ease-in-out infinite}
+    .card:before{top:19px;left:24px}.card:after{right:24px;bottom:19px;animation-delay:.8s}
+    h1{margin:0;font-size:clamp(2.2rem,9vw,4.6rem);font-weight:600;letter-spacing:.025em;text-shadow:0 0 24px rgba(255,99,209,.5)}
+    .names{margin:13px 0 5px;font:italic 1.15rem/1.5 Georgia,serif;color:#f6c6eb}
+    .date{margin:0 0 30px;font:700 .78rem/1.2 system-ui,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#d1a9ee}
+    .start,.open-letter,.close{border:1px solid rgba(255,255,255,.24);color:#fff;cursor:pointer;background:linear-gradient(135deg,#8a3be1,#e347af);box-shadow:0 8px 28px rgba(174,46,192,.35);transition:transform .2s,box-shadow .2s}
+    .start{padding:13px 28px;border-radius:999px;font:700 .83rem system-ui,sans-serif;letter-spacing:.13em;text-transform:uppercase}
+    .start:hover,.start:focus-visible,.open-letter:hover,.open-letter:focus-visible{transform:translateY(-2px);box-shadow:0 12px 38px rgba(226,63,176,.5)}
+    .experience{pointer-events:none}
+    .headline{position:absolute;top:max(22px,5vh);left:50%;transform:translateX(-50%);width:92vw;text-align:center;text-shadow:0 0 18px #c43ca7;animation:fadeDown 1.2s .5s both}
+    .headline h2{margin:0;font-size:clamp(1.65rem,6vw,3rem);font-weight:500}.headline p{margin:8px 0;color:#eac9ef;font:italic 1rem Georgia,serif}
+    .open-letter{pointer-events:auto;position:absolute;bottom:max(24px,5vh);left:50%;transform:translateX(-50%);padding:12px 22px;border-radius:999px;font:700 .82rem system-ui,sans-serif;letter-spacing:.07em;animation:fadeUp 1s 2.8s both}
+    .open-letter:hover,.open-letter:focus-visible{transform:translateX(-50%) translateY(-2px)}
+    .hint{position:absolute;bottom:calc(max(24px,5vh) + 53px);left:50%;transform:translateX(-50%);white-space:nowrap;color:#cba8d6;font:500 .72rem system-ui,sans-serif;letter-spacing:.08em;animation:pulse 2s 3s infinite}
+    .letter-wrap{padding:18px;background:rgba(2,0,5,.56);backdrop-filter:blur(8px);z-index:4}
+    .letter{position:relative;width:min(92vw,620px);max-height:min(84vh,760px);overflow:auto;padding:34px clamp(24px,6vw,52px);border:1px solid rgba(255,171,227,.3);border-radius:20px;background:linear-gradient(160deg,rgba(35,12,47,.96),rgba(13,5,23,.97));box-shadow:0 24px 90px #000,0 0 55px rgba(235,63,189,.18)}
+    .letter h2{text-align:center;margin:0 0 6px;font-size:clamp(1.8rem,6vw,2.8rem);color:#ffd2f0}.letter .to{text-align:center;margin:0 0 25px;color:#e79bcd;font-style:italic}
+    .letter p{font-size:clamp(1rem,3.5vw,1.15rem);line-height:1.75;color:#f8edf7}.signature{text-align:right;color:#ffbfe7!important;font-style:italic;margin-bottom:0}
+    .close{position:sticky;float:right;top:0;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font:700 1.15rem system-ui,sans-serif;z-index:2}
+    .audio{position:fixed;z-index:6;top:14px;right:14px;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.22);color:#fff;background:rgba(21,7,34,.64);backdrop-filter:blur(8px);cursor:pointer;font-size:1rem}
+    .audio[aria-pressed="true"]{color:#ff90d5;box-shadow:0 0 18px rgba(255,81,196,.35)}
+    @keyframes twinkle{50%{opacity:.3;transform:scale(.7)}}@keyframes fadeDown{from{opacity:0;transform:translate(-50%,-18px)}}@keyframes fadeUp{from{opacity:0;transform:translate(-50%,18px)}}@keyframes pulse{50%{opacity:.45}}
+    @media (max-height:620px){.headline{top:12px}.headline p{display:none}.open-letter{bottom:14px}.hint{bottom:63px}.letter{max-height:94vh;padding-top:22px}}
+    @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+  </style>
+</head>
+<body>
+  <canvas id="sky" aria-hidden="true"></canvas>
+  <main>
+    <section class="screen intro" id="intro" aria-labelledby="title">
+      <div class="card">
+        <h1 id="title">Nuestro Universo</h1>
+        <p class="names">David &amp; Miriam</p>
+        <p class="date">Nuestro primer mes</p>
+        <button class="start" id="start">Comenzar ✦</button>
+      </div>
+    </section>
+
+    <section class="screen experience hidden" id="experience" aria-label="Una galaxia de recuerdos">
+      <div class="headline"><h2>Un mes contigo ✨</h2><p>Y ya eres una parte preciosa de mi universo</p></div>
+      <span class="hint">Toca el corazón o abre la carta</span>
+      <button class="open-letter" id="openLetter">Leer mi carta para ti 💌</button>
+    </section>
+
+    <section class="screen letter-wrap hidden" id="letterWrap" role="dialog" aria-modal="true" aria-labelledby="letterTitle">
+      <article class="letter">
+        <button class="close" id="closeLetter" aria-label="Cerrar carta">×</button>
+        <h2 id="letterTitle">Feliz primer mes 💙</h2>
+        <p class="to">Para mi hermosa Miriam</p>
+        <p>Mi amor, hoy cumplimos nuestro primer mes juntos. Tal vez parezca poco tiempo, pero para mí ha sido suficiente para descubrir lo especial que eres y lo feliz que me hace tenerte en mi vida.</p>
+        <p>Gracias por cada conversación, cada risa, cada mirada y cada momento bonito que hemos compartido. Me encanta seguir conociéndote y descubrir esas pequeñas cosas que te hacen única.</p>
+        <p>Quiero que este primer mes sea solamente el comienzo de algo hermoso y sincero. Deseo seguir creando recuerdos contigo, acompañarte en tus días buenos y apoyarte cuando las cosas no sean fáciles.</p>
+        <p>Gracias por llegar a mi vida. Te quiero muchísimo y espero que este sea el primero de muchos meses juntos. ❤️</p>
+        <p class="signature">Con mucho amor,<br><strong>David</strong></p>
+      </article>
+    </section>
+  </main>
+  <button class="audio" id="audio" aria-label="Activar música ambiental" aria-pressed="false">♪</button>
+
+  <script>
+    const canvas=document.querySelector('#sky'),ctx=canvas.getContext('2d');
+    const intro=document.querySelector('#intro'),experience=document.querySelector('#experience');
+    const letterWrap=document.querySelector('#letterWrap'),startBtn=document.querySelector('#start');
+    const openBtn=document.querySelector('#openLetter'),closeBtn=document.querySelector('#closeLetter'),audioBtn=document.querySelector('#audio');
+    let w=0,h=0,dpr=1,started=false,particles=[],stars=[],audioCtx=null,ambient=null;
+    const phrases=['MI LUGAR FAVORITO','CONTIGO TODO ES MÁS BONITO','UN MES DE NOSOTROS','SIEMPRE A TU LADO','MI CORAZÓN ES TUYO','TÚ Y YO','INFINITO ∞'];
+
+    function resize(){dpr=Math.min(devicePixelRatio||1,2);w=innerWidth;h=innerHeight;canvas.width=w*dpr;canvas.height=h*dpr;canvas.style.width=w+'px';canvas.style.height=h+'px';ctx.setTransform(dpr,0,0,dpr,0,0);makeStars();if(started)makeHeart()}
+    function makeStars(){stars=Array.from({length:Math.min(220,Math.floor(w*h/3800))},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.3+.15,a:Math.random()*.75+.2,s:Math.random()*.018+.004}))}
+    function heartPoint(t,scale){const x=16*Math.sin(t)**3;const y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t);return{x:w/2+x*scale,y:h*.43-y*scale}}
+    function makeHeart(){const scale=Math.min(w,h)*.012;particles=[];const count=Math.min(1350,Math.floor(w*h/520));for(let i=0;i<count;i++){const t=Math.random()*Math.PI*2,p=heartPoint(t,scale*(.38+Math.random()*.62));particles.push({x:w/2+(Math.random()-.5)*w*.7,y:h/2+(Math.random()-.5)*h*.7,tx:p.x,ty:p.y,r:Math.random()*1.8+.45,a:Math.random()*.6+.4,hue:300+Math.random()*35,v:Math.random()*.025+.018})}}
+    function drawBackground(time){ctx.clearRect(0,0,w,h);const g=ctx.createRadialGradient(w*.5,h*.47,4,w*.5,h*.47,Math.max(w,h)*.66);g.addColorStop(0,'rgba(70,20,93,.5)');g.addColorStop(.4,'rgba(14,6,27,.7)');g.addColorStop(1,'#030106');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);for(const s of stars){const a=s.a*(.65+.35*Math.sin(time*s.s));ctx.fillStyle=`rgba(237,211,255,${a})`;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,7);ctx.fill()}}
+    function drawGalaxy(time){const cx=w/2,cy=h*.59;for(let i=0;i<430;i++){const angle=i*.37+time*.00003*(i%3+1);const radius=Math.sqrt(i)*Math.min(w,h)*.012;const flatten=.25;const x=cx+Math.cos(angle)*radius,y=cy+Math.sin(angle)*radius*flatten;ctx.fillStyle=i%5===0?'rgba(255,90,208,.5)':'rgba(153,102,255,.28)';ctx.fillRect(x,y,i%11===0?2:1,i%11===0?2:1)}const core=ctx.createRadialGradient(cx,cy,0,cx,cy,45);core.addColorStop(0,'rgba(255,224,160,.95)');core.addColorStop(.22,'rgba(255,117,215,.55)');core.addColorStop(1,'rgba(109,42,188,0)');ctx.fillStyle=core;ctx.beginPath();ctx.arc(cx,cy,45,0,7);ctx.fill()}
+    function drawHeart(){for(const p of particles){p.x+=(p.tx-p.x)*p.v;p.y+=(p.ty-p.y)*p.v;ctx.fillStyle=`hsla(${p.hue},100%,72%,${p.a})`;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,7);ctx.fill()}}
+    function drawPhrases(time){ctx.save();ctx.translate(w/2,h*.59);const rad=Math.min(w*.43,h*.34);ctx.font=`600 ${Math.max(10,Math.min(14,w/70))}px system-ui`;ctx.textAlign='center';ctx.textBaseline='middle';phrases.forEach((text,i)=>{const a=(i/phrases.length)*Math.PI*2+time*.00004;const x=Math.cos(a)*rad,y=Math.sin(a)*rad*.38;ctx.fillStyle='rgba(255,190,229,.84)';ctx.shadowColor='#ff4fc3';ctx.shadowBlur=10;ctx.fillText(text,x,y)});ctx.restore();ctx.shadowBlur=0}
+    function animate(t){drawBackground(t);if(started){drawGalaxy(t);drawHeart();drawPhrases(t)}requestAnimationFrame(animate)}
+
+    function startExperience(){started=true;makeHeart();intro.classList.add('hidden');experience.classList.remove('hidden');startSound();setTimeout(()=>openBtn.focus(),900)}
+    function openLetter(){letterWrap.classList.remove('hidden');closeBtn.focus()}
+    function closeLetter(){letterWrap.classList.add('hidden');openBtn.focus()}
+    canvas.addEventListener('pointerup',e=>{if(started&&!letterWrap.classList.contains('hidden'))return;const p=heartPoint(Math.PI,Math.min(w,h)*.012);if(Math.hypot(e.clientX-w/2,e.clientY-h*.43)<Math.min(w,h)*.19)openLetter()});
+    startBtn.addEventListener('click',startExperience);openBtn.addEventListener('click',openLetter);closeBtn.addEventListener('click',closeLetter);letterWrap.addEventListener('click',e=>{if(e.target===letterWrap)closeLetter()});addEventListener('keydown',e=>{if(e.key==='Escape'&&!letterWrap.classList.contains('hidden'))closeLetter()});
+
+    function startSound(){if(audioCtx)return;audioCtx=new (window.AudioContext||window.webkitAudioContext)();const gain=audioCtx.createGain();gain.gain.value=.035;gain.connect(audioCtx.destination);const osc=audioCtx.createOscillator();osc.type='sine';osc.frequency.value=220;const lfo=audioCtx.createOscillator(),lfoGain=audioCtx.createGain();lfo.frequency.value=.12;lfoGain.gain.value=34;lfo.connect(lfoGain);lfoGain.connect(osc.frequency);osc.connect(gain);osc.start();lfo.start();ambient={gain,osc,lfo};audioBtn.setAttribute('aria-pressed','true');audioBtn.textContent='♫'}
+    audioBtn.addEventListener('click',()=>{if(!audioCtx){startSound();return}const on=audioBtn.getAttribute('aria-pressed')==='true';ambient.gain.gain.setTargetAtTime(on?0:.035,audioCtx.currentTime,.08);audioBtn.setAttribute('aria-pressed',String(!on));audioBtn.textContent=on?'♪':'♫'});
+    addEventListener('resize',resize);resize();requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
