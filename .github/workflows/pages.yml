@@ -1,5 +1,6 @@
 name: Publicar carta
 
+# Publicación activada para GitHub Pages
 on:
   push:
     branches: [main]
